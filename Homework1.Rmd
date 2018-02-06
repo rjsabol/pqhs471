@@ -790,6 +790,7 @@ set.seed(1)
 train=sample(392,196)
 lm.fit=lm(mpg~horsepower, data=Auto, subset=train)
 attach(Auto)
+Auto=Auto[complete.cases(Auto),]
 mean((mpg-predict(lm.fit, Auto))[-train]^2)
 lm.fit2=lm(mpg~poly(horsepower,2), data=Auto, subset=train)
 mean((mpg-predict(lm.fit2, Auto))[-train]^2)
@@ -875,9 +876,3 @@ set.seed(1)
 boot(Auto, boot.fn, 1000)
 summary(lm(mpg~horsepower+I(horsepower^2), data=Auto))$coef
 ```
-
-
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
