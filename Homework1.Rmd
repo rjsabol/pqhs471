@@ -1,0 +1,883 @@
+---
+title: "Homework 1"
+author: "Rachel Sabol"
+date: "February 5, 2018"
+output: pdf_document
+---
+
+Week 1 Assignment 1
+
+1. Matrix warm-up: unsure if there are any deliverables on this assignment.
+2. RStudio installed.
+3. R warm-up (ISLR Chapter 2 Lab):
+
+```{r}
+x <- c(1,3,2,5)
+x
+x = c(1,6,2)
+x
+y=c(1,4,3)
+y
+```
+```{r}
+length(x)
+length(y)
+x+y
+```
+```{r}
+ls()
+rm(x,y)
+ls()
+rm(list=ls())
+```
+```{r}
+x=matrix(data=c(1,2,3,4), nrow=2, ncol=2)
+x
+x=matrix(c(1,2,3,4), 2, 2)
+x
+matrix(c(1,2,3,4), 2, 2, byrow=TRUE)
+```
+```{r}
+sqrt(x)
+x^2
+```
+```{r}
+x=rnorm(50)
+y=x+rnorm(50, mean=50, sd=.1)
+cor(x,y)
+```
+```{r}
+set.seed(3)
+y=rnorm(100)
+mean(y)
+var(y)
+sqrt(var(y))
+sd(y)
+```
+```{r}
+x=rnorm(100)
+y=rnorm(100)
+plot(x,y)
+plot(x,y,xlab="this is the x-axis", ylab="this is the y-axis", main="Plot of X vs. Y")
+```
+```{r}
+pdf("Figure.pdf")
+plot(x,y,col="green")
+dev.off()
+
+```
+```{r}
+x=seq(1,10)
+x
+x=1:10
+x
+x=seq(-pi, pi, length=50)
+x
+```
+```{r}
+y=x
+f=outer(x,y,function(x,y)cos(y)/(1+x^2))
+contour(x,y,f)
+contour(x,y,f,nlevels=45, add=T)
+fa=(f-t(f))/2
+contour(x,y,fa,nlevels=15)
+```
+```{r}
+image(x,y,fa)
+persp(x,y,fa)
+persp(x,y,fa,theta=30)
+persp(x,y,fa,theta=30, phi=20)
+persp(x,y,fa,theta=30, phi=70)
+persp(x,y,fa,theta=30, phi=40)
+```
+```{r}
+A=matrix(1:16,4,4)
+A
+A[2,3]
+A[c(1,3),c(2,4)]
+A[1:3,2:4]
+A[1:2,]
+A[,1:2]
+A[1,]
+A[-c(1,3),]
+dim(A)
+```
+```{r}
+path="C:/Users/Rachel Sabol/Documents/Graduate Coursework/PQHS 471/Auto.data.txt"
+Auto=read.table(path)
+fix(Auto)
+```
+```{r}
+Auto=read.table(path, header=T, na.strings="?")
+fix(Auto)
+dim(Auto)
+Auto[1:4,]
+```
+```{r}
+Auto=na.omit(Auto)
+dim(Auto)
+```
+```{r}
+names(Auto)
+```
+```{r}
+plot(Auto$cylinders, Auto$mpg)
+attach(Auto)
+plot(cylinders, mpg)
+```
+```{r}
+cylinders=as.factor(cylinders)
+plot(cylinders, mpg)
+plot(cylinders, mpg, col="red")
+plot(cylinders, mpg, col="red", varwidth=T)
+plot(cylinders, mpg, col="red", varwidth=T, horizontal=T)
+plot(cylinders, mpg, col="red", varwidth=T, xlab="cylinders", ylab="MPG")
+```
+```{r}
+hist(mpg)
+hist(mpg, col=2)
+hist(mpg, col=2, breaks=15)
+```
+```{r}
+pairs(Auto)
+pairs(~ mpg + displacement +horsepower + weight + acceleration, Auto)
+```
+```{r}
+plot(horsepower, mpg)
+identify(horsepower, mpg, name)
+```
+```{r}
+summary(Auto)
+summary(mpg)
+```
+
+4. Warm-up reading reading complete
+5. ISLR Chapter 2, HOML Chapter 1 reading complete
+6. Python and git installed 
+
+Week 1 Assignment 2
+1. ISLR Chapter 2 Exercises 1,3,8
+
+Exercise 1- a) A flexible model will likely perform better. 
+b) An inflexible model will likely perform better. 
+c) An inflexible model will likely perform better. 
+d) An inflexible model will likely perform better. 
+
+Exercise 3- Graph is attached. Bias decreases as flexibility increases, as the model fits the "real life" data more closely. Training error also decreases as flexibility increases, as the model can exactly predit the points within that data set. However, testing error increases as the model is not as robust to new observations. The bayes error will also decrease, as the exact boundaries can be better estimated in flexible models. Finally, the variance increases as the flexibility increases, because the model is more sensitive to fluctuations in data. 
+
+Exercise 8
+
+```{r}
+path="C:/Users/Rachel Sabol/Documents/Graduate Coursework/PQHS 471/college.csv"
+college=read.csv(path)
+fix(college)
+rownames(college)=college[,1]
+fix(college)
+college=college[,-1]
+fix(college)
+```
+```{r}
+summary(college)
+pairs(college[,1:10])
+```
+```{r}
+plot(college$Outstate, college$Private)
+```
+```{r}
+Elite=rep("No", nrow(college))
+Elite[college$Top10perc>50]="Yes"
+Elite=as.factor(Elite)
+college=data.frame(college, Elite)
+summary(college)
+plot(college$Outstate, college$Elite)
+```
+```{r}
+par(mfrow=c(2,2))
+hist(college$Accept)
+hist(college$Accept, breaks=12)
+hist(college$Books, breaks=3)
+hist(college$Books, breaks=6)
+
+```
+A brief summary- college acceptances are skewed to the left. 
+
+2. Reading complete.
+3. ISLR Chapter 3 R labs
+
+```{r}
+library(MASS)
+library(ISLR)
+```
+```{r}
+fix(Boston)
+names(Boston)
+```
+```{r}
+attach(Boston)
+lm.fit=lm(medv~lstat)
+lm.fit
+summary(lm.fit)
+names(lm.fit)
+coef(lm.fit)
+confint(lm.fit)
+```
+```{r}
+predict(lm.fit,data.frame(lstat=c(5,10,15)), interval="confidence")
+```
+```{r}
+predict(lm.fit,data.frame(lstat=c(5,10,15)), interval="prediction")
+```
+```{r}
+plot(lstat, medv)
+abline(lm.fit)
+```
+```{r}
+plot(lstat, medv)
+abline(lm.fit)
+abline(lm.fit, lwd=3)
+abline(lm.fit, lwd=3, col="red")
+plot(lstat, medv, col="red")
+plot(lstat, medv, pch=20)
+plot(lstat, medv, pch="+")
+plot(1:20, 1:20, pch=1:20)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit)
+plot(predict(lm.fit), residuals(lm.fit))
+plot(predict(lm.fit), rstudent(lm.fit))
+plot(hatvalues(lm.fit))
+```
+```{r}
+which.max(hatvalues(lm.fit))
+```
+```{r}
+lm.fit=lm(medv~lstat+age, data=Boston)
+summary(lm.fit)
+```
+```{r}
+lm.fit=lm(medv~., data=Boston)
+summary(lm.fit)
+```
+```{r}
+library(car)
+vif(lm.fit)
+```
+```{r}
+lm.fit1=lm(medv~.-age, data=Boston)
+summary(lm.fit1)
+```
+```{r}
+lm.fit1=update(lm.fit,~.-age)
+summary(lm.fit1)
+```
+```{r}
+summary(lm(medv~lstat*age,data=Boston))
+```
+```{r}
+lm.fit2=lm(medv~lstat+I(lstat^2))
+summary(lm.fit2)
+```
+```{r}
+lm.fit=lm(medv~lstat)
+anova(lm.fit, lm.fit2)
+```
+```{r}
+par(mfrow=c(2,2))
+plot(lm.fit2)
+```
+```{r}
+lm.fit5=lm(medv~poly(lstat,5))
+summary(lm.fit5)
+```
+```{r}
+summary(lm(medv~log(rm), data=Boston))
+```
+```{r}
+fix(Carseats)
+names(Carseats)
+```
+```{r}
+lm.fit=lm(Sales~.+Income:Advertising+Price:Age,data=Carseats)
+summary(lm.fit)
+```
+```{r}
+detach(Boston)
+attach(Carseats)
+contrasts(ShelveLoc)
+```
+```{r}
+LoadLibraries=function(){
+  library(ISLR)
+  library(MASS)
+  print("The libraries have been loaded.")
+}
+```
+```{r}
+LoadLibraries
+LoadLibraries()
+```
+
+4. HOML Python code- in seperate file. (come back to this using jupyter and the notebook provided by HOML)
+
+Week 2 Assignment 1
+1. Reading- complete
+2. ISLR Chapter 3 Lab- complete
+
+Week 2 Assignment 2
+1. ISLR Chapter 3 Exercises 9, 15
+
+Exercise 9
+```{r}
+path="C:/Users/Rachel Sabol/Documents/Graduate Coursework/PQHS 471/Auto.data.txt"
+Auto=read.table(path, header=T, na.strings="?")
+fix(Auto)
+```
+```{r}
+pairs(Auto)
+```
+```{r}
+names(Auto)
+dim(Auto)
+```
+```{r}
+cor(Auto[,1:8])
+```
+```{r}
+lm.Auto=lm(mpg~.-name, data=Auto)
+summary(lm.Auto)
+```
+There is a relationship between the predictors and the response. The predictos displacement, weigh, year, and origin make statistically significant contributions to the response. The coefficient for the variable year suggests each year the mpg improves by 0.750773 units.
+```{r}
+par(mfrow=c(2,2))
+plot(lm.Auto)
+```
+There seems to be evidence of a slightly nonlinear relationship in the plot of residuals vs. fitted. In terms of outliers, the residueals vs. leverage plot indicates the presence of some outliers and one very high leverage point which may be influencing the model.
+```{r}
+lm.Auto2=lm(mpg~cylinders*displacement+displacement*weight+weight*cylinders, data=Auto[, 1:8])
+summary(lm.Auto2)
+```
+Top interactions were chosen from the correlation matrix. The interaction between displacement and weight is statistically signficant and the others are not.
+```{r}
+par(mfrow=c(2,2))
+plot(Auto$weight, Auto$mpg)
+plot(log(Auto$weight), Auto$mpg)
+plot(sqrt(Auto$weight), Auto$mpg)
+plot((Auto$weight)^2, Auto$mpg)
+```
+The log transformation seems to  make the relationship between weight and mpg the most linear.
+
+Exercise 15
+```{r}
+library(MASS)
+library(ISLR)
+fix(Boston)
+```
+```{r}
+names(Boston)
+```
+```{r}
+fit.zn=lm(crim~zn, data=Boston)
+summary(fit.zn)
+plot(fit.zn)
+```
+```{r}
+fit.indus=lm(crim~indus, data=Boston)
+summary(fit.indus)
+plot(fit.indus)
+```
+```{r}
+fit.chas=lm(crim~chas, data=Boston)
+summary(fit.chas)
+plot(fit.chas)
+```
+```{r}
+fit.nox=lm(crim~nox, data=Boston)
+summary(fit.nox)
+plot(fit.nox)
+```
+```{r}
+fit.rm=lm(crim~rm, data=Boston)
+summary(fit.rm)
+plot(fit.rm)
+```
+```{r}
+fit.age=lm(crim~age, data=Boston)
+summary(fit.age)
+plot(fit.age)
+```
+```{r}
+fit.dis=lm(crim~dis, data=Boston)
+summary(fit.dis)
+plot(fit.dis)
+```
+```{r}
+fit.rad=lm(crim~rad, data=Boston)
+summary(fit.rad)
+plot(fit.rad)
+```
+```{r}
+fit.tax=lm(crim~tax, data=Boston)
+summary(fit.tax)
+plot(fit.tax)
+```
+```{r}
+fit.ptratio=lm(crim~ptratio, data=Boston)
+summary(fit.ptratio)
+plot(fit.ptratio)
+```
+```{r}
+fit.black=lm(crim~black, data=Boston)
+summary(fit.black)
+plot(fit.black)
+```
+```{r}
+fit.lstat=lm(crim~lstat, data=Boston)
+summary(fit.lstat)
+plot(fit.lstat)
+```
+```{r}
+fit.medv=lm(crim~medv, data=Boston)
+summary(fit.medv)
+plot(fit.medv)
+```
+Chas is the only predictor that does not have a signifcant p value for relationship (p<0.05).
+```{r}
+fit.all=lm(crim~., data=Boston)
+summary(fit.all)
+```
+The following predictors have a p-value of under 0.05, for which we can reject the null hypothesis: zn, dis, rad, black, medv.
+
+These results paint a different picture than the results of the individual regressions.
+```{r}
+single=numeric(13)
+single[1]=fit.zn$coefficients[2]
+single[2]=fit.indus$coefficients[2]
+single[3]=fit.chas$coefficients[2]
+single[4]=fit.nox$coefficients[2]
+single[5]=fit.rm$coefficients[2]
+single[6]=fit.age$coefficients[2]
+single[7]=fit.dis$coefficients[2]
+single[8]=fit.rad$coefficients[2]
+single[9]=fit.tax$coefficients[2]
+single[10]=fit.ptratio$coefficients[2]
+single[11]=fit.black$coefficients[2]
+single[12]=fit.lstat$coefficients[2]
+single[13]=fit.medv$coefficients[2]
+                               
+single                              
+```
+
+```{r}
+mult=fit.all$coefficients[2:14]
+mult
+```
+```{r}
+plot(single, mult)
+```
+```{r}
+fit3.zn=lm(crim~poly(zn,3),data=Boston)
+summary(fit3.zn)
+fit3.indus=lm(crim~poly(indus,3),data=Boston)
+summary(fit3.indus)
+fit2.chas=lm(crim~poly(chas,1),data=Boston)
+summary(fit2.chas)
+fit3.nox=lm(crim~poly(nox,3),data=Boston)
+summary(fit3.nox)
+fit3.rm=lm(crim~poly(rm,3),data=Boston)
+summary(fit3.rm)
+fit3.age=lm(crim~poly(age,3),data=Boston)
+summary(fit3.age)
+fit3.dis=lm(crim~poly(dis,3),data=Boston)
+summary(fit3.dis)
+fit3.rad=lm(crim~poly(rad,3),data=Boston)
+summary(fit3.rad)
+fit3.tax=lm(crim~poly(tax,3),data=Boston)
+summary(fit3.tax)
+fit3.ptratio=lm(crim~poly(ptratio,3),data=Boston)
+summary(fit3.ptratio)
+fit3.black=lm(crim~poly(black,3),data=Boston)
+summary(fit3.black)
+fit3.lstat=lm(crim~poly(lstat,3),data=Boston)
+summary(fit3.lstat)
+fit3.medv=lm(crim~poly(medv,3),data=Boston)
+summary(fit3.medv)
+```
+
+Chapter 4 R Lab
+```{r}
+names(Smarket)
+summary(Smarket)
+dim(Smarket)
+pairs(Smarket)
+```
+```{r}
+cor(Smarket[,-9])
+```
+```{r}
+par(mfrow=c(1,2))
+attach(Smarket)
+plot(Volume)
+plot(Year, Volume)
+```
+```{r}
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume, data=Smarket, family=binomial)
+summary(glm.fit)
+```
+```{r}
+coef(glm.fit)
+summary(glm.fit)$coef
+summary(glm.fit)$coef[,4]
+```
+
+```{r}
+glm.probs=predict(glm.fit, type="response")
+glm.probs[1:10]
+contrasts(Direction)
+```
+```{r}
+glm.pred=rep("Down", 1250)
+glm.pred[glm.probs>.5]="Up"
+table(glm.pred, Direction)
+(507+145)/1250
+mean(glm.pred==Direction)
+```
+```{r}
+train=(Year<2005)
+Smarket.2005=Smarket[!train,]
+dim(Smarket.2005)
+Direction.2005=Direction[!train]
+```
+```{r}
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume, data=Smarket, family=binomial, subset=train)
+glm.probs=predict(glm.fit, Smarket.2005, type="response")
+glm.pred=rep("Down", 252)
+glm.pred[glm.probs>.5]="Up"
+table(glm.pred, Direction.2005)
+mean(glm.pred==Direction.2005)
+mean(glm.pred!=Direction.2005)
+```
+```{r}
+glm.fit=glm(Direction~Lag1+Lag2, data=Smarket, family=binomial, subset=train)
+glm.probs=predict(glm.fit, Smarket.2005, type="response")
+glm.pred=rep("Down", 252)
+glm.pred[glm.probs>.5]="Up"
+table(glm.pred,Direction.2005)
+mean(glm.pred==Direction.2005)
+```
+```{r}
+predict(glm.fit, newdata=data.frame(Lag1=c(1.2,1.5), Lag2=c(1.1, -0.8)), type="response")
+```
+```{r}
+lda.fit=lda(Direction~Lag1+Lag2, data=Smarket, subset=train)
+lda.fit
+plot(lda.fit)
+```
+```{r}
+lda.pred=predict(lda.fit, Smarket.2005)
+names(lda.pred)
+lda.class=lda.pred$class
+table(lda.class, Direction.2005)
+mean(lda.class==Direction.2005)
+```
+```{r}
+sum(lda.pred$posterior[,1]>=.5)
+sum(lda.pred$posterior[,1]<.5)
+```
+```{r}
+lda.pred$posterior[1:20,1]
+lda.class[1:20]
+sum(lda.pred$posterior[,1]>.9)
+```
+```{r}
+qda.fit=qda(Direction~Lag1+Lag2, data=Smarket, subset=train)
+qda.fit
+```
+```{r}
+qda.class=predict(qda.fit, Smarket.2005)$class
+table(qda.class, Direction.2005)
+mean(qda.class==Direction.2005)
+```
+```{r}
+library(class)
+train.X=cbind(Lag1, Lag2)[train,]
+test.X=cbind(Lag1, Lag2)[!train,]
+train.Direction=Direction[train]
+set.seed(1)
+knn.pred=knn(train.X, test.X, train.Direction, k=1)
+table(knn.pred, Direction.2005)
+(83+43)/252
+```
+```{r}
+knn.pred=knn(train.X, test.X, train.Direction, k=3)
+table(knn.pred, Direction.2005)
+mean(knn.pred==Direction.2005)
+```
+```{r}
+dim(Caravan)
+attach(Caravan)
+summary(Purchase)
+348/5822
+```
+```{r}
+standardized.X=scale(Caravan[,-86])
+var(Caravan[,1])
+var(Caravan[,2])
+var(standardized.X[,1])
+var(standardized.X[,2])
+```
+```{r}
+test=1:1000
+train.X=standardized.X[-test, ]
+test.X=standardized.X[test,]
+train.Y=Purchase[-test]
+test.Y=Purchase[test]
+set.seed(1)
+knn.pred=knn(train.X, test.X, train.Y, k=1)
+mean(test.Y!=knn.pred)
+mean(test.Y!="No")
+```
+```{r}
+table(knn.pred, test.Y)
+9/(68+9)
+```
+```{r}
+knn.pred=knn(train.X, test.X, train.Y, k=3)
+table(knn.pred, test.Y)
+5/26
+knn.pred=knn(train.X, test.X, train.Y, k=5)
+table(knn.pred, test.Y)
+4/15
+```
+```{r}
+glm.fit=glm(Purchase~.,data=Caravan, family=binomial, subset=-test)
+glm.probs=predict(glm.fit, Caravan[test,], type="response")
+glm.pred=rep("No", 1000)
+glm.pred[glm.probs>.5]="Yes"
+table(glm.pred, test.Y)
+glm.pred=rep("No", 1000)
+glm.pred[glm.probs>.25]="Yes"
+table(glm.pred, test.Y)
+11/(22+11)
+```
+
+Chapter 4 Exercise 13
+```{r}
+names(Boston)
+summary(Boston)
+fix(Boston)
+attach(Boston)
+```
+```{r}
+crime=Boston$crim
+crime_med=median(crime)
+truth=as.numeric(crime>crime_med) #1 if greater, 0 if less
+Boston=data.frame(Boston, truth)
+train=Boston[1:(length(crime)/2),]
+test=Boston[((length(crime)/2)+1):length(crime),] #split into training and testing sets
+dim(train)
+dim(test)
+```
+Logistic Regression
+```{r}
+glm.fit=glm(truth~zn+indus+chas+nox+rm+age+dis+rad+tax+ptratio+black+lstat+medv, data=train, family=binomial)
+summary(glm.fit)
+```
+```{r}
+glm.probs=predict(glm.fit, type="response")
+glm.pred=rep(0,253)
+glm.pred[glm.probs>.5]=1
+table(glm.pred, test$truth)
+mean(glm.pred==test$truth)
+
+```
+LDA
+```{r}
+lda.fit=lda(truth~zn+indus+chas+nox+rm+age+dis+rad+tax+ptratio+black+lstat+medv, data=train)
+lda.fit
+plot(lda.fit)
+```
+```{r}
+lda.pred=predict(lda.fit, test)
+lda.class=lda.pred$class
+table(lda.class, test$truth)
+mean(lda.class==test$truth)
+```
+QDA
+```{r}
+qda.fit=qda(truth~zn+indus+chas+nox+rm+age+dis+rad+tax+ptratio+black+lstat+medv, data=train)
+qda.fit
+```
+```{r}
+qda.class=predict(qda.fit,test)$class
+table(qda.class, test$truth)
+mean(qda.class==test$truth)
+```
+KNN
+```{r}
+library(class)
+train.X=train[, c("zn","indus","chas","nox","rm","age","dis","rad","tax","ptratio","black","lstat","medv")]
+test.X=test[, c("zn","indus","chas","nox","rm","age","dis","rad","tax","ptratio","black","lstat","medv")]
+set.seed(1)
+knn.pred=knn(train.X, test.X, train$truth, k=1)
+table(knn.pred, test$truth)
+mean(knn.pred==test$truth)
+```
+```{r}
+knn.pred=knn(train.X, test.X, train$truth, k=3)
+table(knn.pred, test$truth)
+mean(knn.pred==test$truth)
+```
+Using the most significant predictors (zn, nox, dis, rad, ptratio)
+```{r}
+glm.fit=glm(truth~zn+nox+dis+rad+ptratio, data=train, family=binomial)
+summary(glm.fit)
+glm.probs=predict(glm.fit, type="response")
+glm.pred=rep(0,253)
+glm.pred[glm.probs>.5]=1
+table(glm.pred, test$truth)
+mean(glm.pred==test$truth)
+
+```
+```{r}
+lda.fit=lda(truth~zn+nox+dis+rad+ptratio, data=train)
+lda.pred=predict(lda.fit, test)
+lda.class=lda.pred$class
+table(lda.class, test$truth)
+mean(lda.class==test$truth)
+```
+```{r}
+qda.fit=qda(truth~zn+nox+dis+rad+ptratio, data=train)
+qda.class=predict(qda.fit,test)$class
+table(qda.class, test$truth)
+mean(qda.class==test$truth)
+```
+```{r}
+train.X=train[, c("zn", "nox","dis","rad","ptratio")]
+test.X=test[,c("zn", "nox","dis","rad","ptratio")]
+set.seed(1)
+knn.pred=knn(train.X, test.X, train$truth, k=1)
+table(knn.pred, test$truth)
+mean(knn.pred==test$truth)
+```
+```{r}
+library(class)
+knn.pred=knn(train.X, test.X, train$truth, k=3)
+table(knn.pred, test$truth)
+mean(knn.pred==test$truth)
+```
+
+Summary of model prediction capabilities using all variables:
+Logistic regression- 0.5375494
+LDA- 0.8656126
+QDA- 0.3478261
+KNN1- 0.541502
+KNN3- 0.7351779
+
+Summary of model prediction capabilities using variables with most significant contributions to logistic regression model (p~0):
+Logistic regression- 0.56917
+LDA- 0.8893281
+QDA- 0.3201581
+KNN1- 0.8735178
+KNN3- 0.8774704
+
+Narrowing down the predictors included in the model to the most significant contributors improves model prediction capabilities for all models (logistic regression, LDA, QDA, and KNN). Overall, the best performing model is the restricted LDA with an prediction accuracy in the test set of 0.889.
+
+Chapter 5 Labs
+
+```{r}
+set.seed(1)
+train=sample(392,196)
+lm.fit=lm(mpg~horsepower, data=Auto, subset=train)
+attach(Auto)
+mean((mpg-predict(lm.fit, Auto))[-train]^2)
+lm.fit2=lm(mpg~poly(horsepower,2), data=Auto, subset=train)
+mean((mpg-predict(lm.fit2, Auto))[-train]^2)
+lm.fit3=lm(mpg~poly(horsepower,3), data=Auto, subset=train)
+mean((mpg-predict(lm.fit3, Auto))[-train]^2)
+```
+```{r}
+set.seed(2)
+train=sample(392, 196)
+lm.fit=lm(mpg~horsepower, data=Auto, subset=train)
+mean((mpg-predict(lm.fit, Auto))[-train]^2)
+lm.fit2=lm(mpg~poly(horsepower,2), data=Auto, subset=train)
+mean((mpg-predict(lm.fit2, Auto))[-train]^2)
+lm.fit3=lm(mpg~poly(horsepower,3), data=Auto, subset=train)
+mean((mpg-predict(lm.fit3, Auto))[-train]^2)
+```
+```{r}
+glm.fit=glm(mpg~horsepower, data=Auto)
+coef(glm.fit)
+lm.fit=lm(mpg~horsepower, data=Auto)
+coef(lm.fit)
+```
+```{r}
+library(boot)
+glm.fit=glm(mpg~horsepower, data=Auto)
+cv.err=cv.glm(Auto, glm.fit)
+cv.err$delta
+```
+```{r}
+cv.error=rep(0,5)
+for (i in 1:5){
+  glm.fit=glm(mpg~poly(horsepower, i), data=Auto)
+  cv.error[i]=cv.glm(Auto, glm.fit)$delta[1]
+}
+cv.error
+```
+```{r}
+set.seed(17)
+cv.error.10=rep(0,10)
+for(i in 1:10){
+  glm.fit=glm(mpg~poly(horsepower, i), data=Auto)
+  cv.error.10[i]=cv.glm(Auto, glm.fit, K=10)$delta[1]
+}
+cv.error.10
+```
+```{r}
+alpha.fn=function(data, index){
+  X=data$X[index]
+  Y=data$Y[index]
+  return((var(Y)-cov(X,Y))/(var(X)+var(Y)-2*cov(X,Y)))
+}
+```
+```{r}
+alpha.fn(Portfolio, 1:100)
+```
+```{r}
+set.seed(1)
+alpha.fn(Portfolio, sample(100,100,replace=T))
+```
+```{r}
+boot(Portfolio, alpha.fn, R=1000)
+```
+```{r}
+boot.fn=function(data, index)
+  return(coef(lm(mpg~horsepower, data=data, subset=index)))
+```
+```{r}
+boot.fn(Auto, 1:392)
+```
+```{r}
+set.seed(1)
+boot.fn(Auto, sample(392, 392, replace=T))
+boot.fn(Auto, sample(392, 392, replace=T))
+```
+```{r}
+boot(Auto, boot.fn, 1000)
+summary(lm(mpg~horsepower, data=Auto))$coef
+boot.fn=function(data, index)
+  coefficients(lm(mpg~horsepower+I(horsepower^2), data=data, subset = index))
+```
+```{r}
+set.seed(1)
+boot(Auto, boot.fn, 1000)
+summary(lm(mpg~horsepower+I(horsepower^2), data=Auto))$coef
+```
+
+
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
